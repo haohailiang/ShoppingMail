@@ -2,3 +2,13 @@
 [课程地址](http://coding.imooc.com/learn/list/113.html)  
 [演示地址](http://mallvnm.t.imooc.io/#/goods)  
 
+# vue-cli构建SPA应用
+```
+npm install -g vue-cli
+vue init webpack-simple shopping-mall
+vue init webpack shopping-mall
+
+cd shopping-mall
+npm install
+npm run dev
+```
