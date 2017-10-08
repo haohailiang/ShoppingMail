@@ -10,7 +10,10 @@ module.exports = {
     env: require('./prod.env'),
     index: path.resolve(__dirname, '../dist/index.html'),
     assetsRoot: path.resolve(__dirname, '../dist'),
-    assetsSubDirectory: 'static',
+    // assetsSubDirectory: 'static',//静态资源的存放路径[npm run build]
+    // 1.查看控制台生成的文件即明白
+    // 2.查看index.html文件中的静态资源链接
+    assetsSubDirectory: 'http://www.baidu.com',
     assetsPublicPath: '/',
     productionSourceMap: true,
     // Gzip off by default as many popular static hosts such as
