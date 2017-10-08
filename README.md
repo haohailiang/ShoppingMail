@@ -5,7 +5,7 @@
 # vue-cli构建SPA应用
 ```
 npm install -g vue-cli
-vue init webpack-simple shopping-mall
+vue init webpack shopping-mall
 
 cd shopping-mall
 npm install
