@@ -13,19 +13,7 @@ export default new Router({
     {
       path: '/goods',
       name: 'GoodList',
-      component: GoodList,
-	    children:[
-		    {
-			    path:'title',
-			    name:'title',
-			    component:Title
-		    },
-		    {
-			    path:'img',
-			    name:'img',
-			    component:Image
-		    }
-	    ]
+      component: GoodList
     },
 	  {
 		  path:'/cart',
