@@ -4,7 +4,7 @@
 
 # 测试地址
 ```
-http://localhost:8080/#/goods/89
-http://localhost:8080/#/goods/haha
-http://localhost:8080/#/goods/10010/user/haohailiang
+http://localhost:8080/goods/89
+http://localhost:8080/goods/haha
+http://localhost:8080/goods/10010/user/haohailiang
 ```
