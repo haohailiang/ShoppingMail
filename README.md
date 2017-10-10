@@ -4,7 +4,6 @@
 
 # 
 ```
-sudo cnpm i vue-resource@1.3.1 --save
-sudo cnpm i bootstrap@3.3.7 --save
-http://localhost:3000/vue-resource-demo.html
+sudo cnpm i axios@0.16.1 --save
+http://localhost:3000/demo/axios-demo.html
 ```
