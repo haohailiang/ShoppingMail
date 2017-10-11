@@ -2,7 +2,8 @@
     <div>
         <nav-header></nav-header>
         <nav-bread>
-            <span>Goods</span>
+            <span slot="bread">Goods</span>
+            <span slot="haha">^_^</span>
         </nav-bread>
         <div class="accessory-result-page accessory-page">
             <div class="container">
