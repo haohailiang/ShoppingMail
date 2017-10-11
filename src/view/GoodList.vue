@@ -101,21 +101,33 @@
 </style>
 
 <script type="text/ecmascript-6">
-    import '../assets/css/login.css'
-    import '../assets/css/product.css'
-    import NavHeader from '@/components/NavHeader.vue'
-    import NavFooter from '@/components/NavFooter.vue'
-    import NavBread from '@/components/NavBread.vue'
-export default {
-	data(){
-		return {
-			msg:'Hello Vue!'
-        }
+  import '../assets/css/login.css'
+  import '../assets/css/product.css'
+  import NavHeader from '@/components/NavHeader.vue'
+  import NavFooter from '@/components/NavFooter.vue'
+  import NavBread from '@/components/NavBread.vue'
+  import axios from 'axios'
+
+  export default {
+    data(){
+      return {
+       goodsList:[]
+      }
+    },
+    mounted(){
+      this.getGoodsList();
     },
     components:{
-	    NavHeader,
-	    NavFooter,
-	    NavBread
+      NavHeader,
+      NavFooter,
+      NavBread
+    },
+    methods:{
+      getGoodsList(){
+        axios.get('/goods').then(res => {
+          debugger;
+        })
+      }
     }
-}
+  }
 </script>
