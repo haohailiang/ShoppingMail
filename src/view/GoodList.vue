@@ -38,49 +38,13 @@
                     <div class="accessory-list-wrap">
                         <div class="accessory-list col-4">
                             <ul>
-                                <li>
+                                <li  v-for="(item, index) in goodsList">
                                     <div class="pic">
-                                        <a href="#"><img src="static/zipai.jpg" alt=""></a>
+                                        <a href="#"><img :src="'static/'+item.prodcutImg"></a>
                                     </div>
                                     <div class="main">
-                                        <div class="name">XX</div>
-                                        <div class="price">999</div>
-                                        <div class="btn-area">
-                                            <a href="javascript:;" class="btn btn--m">加入购物车</a>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="pic">
-                                        <a href="#"><img src="static/6.jpg" alt=""></a>
-                                    </div>
-                                    <div class="main">
-                                        <div class="name">XX</div>
-                                        <div class="price">1000</div>
-                                        <div class="btn-area">
-                                            <a href="javascript:;" class="btn btn--m">加入购物车</a>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="pic">
-                                        <a href="#"><img src="static/2.jpg" alt=""></a>
-                                    </div>
-                                    <div class="main">
-                                        <div class="name">XX</div>
-                                        <div class="price">500</div>
-                                        <div class="btn-area">
-                                            <a href="javascript:;" class="btn btn--m">加入购物车</a>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="pic">
-                                        <a href="#"><img src="static/1.jpg" alt=""></a>
-                                    </div>
-                                    <div class="main">
-                                        <div class="name">XX</div>
-                                        <div class="price">2499</div>
+                                        <div class="name">{{item.productName}}</div>
+                                        <div class="price">{{item.prodcutPrice}}</div>
                                         <div class="btn-area">
                                             <a href="javascript:;" class="btn btn--m">加入购物车</a>
                                         </div>
@@ -125,7 +89,7 @@
     methods:{
       getGoodsList(){
         axios.get('/goods').then(res => {
-          debugger;
+          this.goodsList = res.data.result;
         })
       }
     }
