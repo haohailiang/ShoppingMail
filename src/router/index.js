@@ -11,7 +11,7 @@ export default new Router({
 	mode:'hash',
   routes: [
     {
-      path: '/goods',
+      path: '/',
       name: 'GoodList',
       components: {
       	default:GoodList,
