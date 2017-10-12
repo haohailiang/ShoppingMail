@@ -4,6 +4,8 @@
 
 # 
 ```
-sudo cnpm i axios@0.16.1 --save
-http://localhost:3000/demo/axios-demo.html
+sudo cnpm i vue-lazyload --save-dev
+//main.js
+import VueLazyload from 'vue-lazyload'
+Vue.use(VueLazyload)
 ```
