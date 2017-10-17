@@ -24,12 +24,12 @@ const proxyTable = config.dev.proxyTable
 const app = express()
 
 //导入模拟数据
-var goodsData = require('../mock/goods.json')
-var router = express.Router()
-router.get("/goods", function (req,res) {
-  res.json(goodsData)
-})
-app.use(router)
+// var goodsData = require('../mock/goods.json')
+// var router = express.Router()
+// router.get("/goods", function (req,res) {
+//   res.json(goodsData)
+// })
+// app.use(router)
 
 const compiler = webpack(webpackConfig)
 

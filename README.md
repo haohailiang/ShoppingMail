@@ -2,10 +2,7 @@
 [课程地址](http://coding.imooc.com/learn/list/113.html)  
 [演示地址](http://mallvnm.t.imooc.io/#/goods)  
 
-# 
+# 安装mongoose
 ```
-sudo cnpm i vue-lazyload --save-dev
-//main.js
-import VueLazyload from 'vue-lazyload'
-Vue.use(VueLazyload)
+npm install mongoose --save
 ```
