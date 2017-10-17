@@ -6,3 +6,7 @@
 ```
 npm install mongoose --save
 ```
+# 安装
+```$xslt
+npm install vue-infinite-scroll --save
+```

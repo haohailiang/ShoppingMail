@@ -67,7 +67,10 @@
     data(){
       return {
        priceChecked:'',
-       goodsList:[],
+       goodsList:[], 
+       page:1,
+       pageSize:8,
+       sortFlag:true,
        priceFilter:[
         {
           startPrice:'0.00',
@@ -98,7 +101,14 @@
     },
     methods:{
       getGoodsList(){
-        axios.get('/goods').then(resonse => {
+      	var param = {
+          page: this.page,
+          pageSize: this.pageSize,
+          sort: this.sortFlag?1:-1
+        };
+        axios.get('/goods', {
+          params: param
+        }).then(resonse => {
           let res = resonse.data;
           if(res.status == '0'){
             this.goodsList = res.result.list;
@@ -106,6 +116,9 @@
           	this.goodsList = [];
           }
         })
+      },
+      sortGoods(){
+        this.sortFlag = !this.sortFlag;
       }
     }
   }
