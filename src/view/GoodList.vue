@@ -46,6 +46,9 @@
                                     </div>
                                 </li>
                             </ul>
+                            <div v-infinite-scroll="loadMore" infinite-scroll-disabled="busy" infinite-scroll-distance="30">
+                                <span v-show="busy">加载中...</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -73,8 +76,10 @@
        priceChecked:'',
        goodsList:[], 
        page:1,
-       pageSize:8,
+       pageSize:4,
        sortFlag:true,
+       flag:false,
+       busy:false,
        priceFilter:[
         {
           startPrice:'0.00',
@@ -105,7 +110,7 @@
     },
     methods:{
       getGoodsList(){
-      	var param = {
+        var param = {
           page: this.page,
           pageSize: this.pageSize,
           sort: this.sortFlag?1:-1
@@ -115,7 +120,18 @@
         }).then(resonse => {
           let res = resonse.data;
           if(res.status == '0'){
-            this.goodsList = res.result.list;
+          	if(this.flag){
+              this.goodsList = this.goodsList.concat(res.result.list)
+              if(res.result.list.length == 0){
+//	              this.busy = false;
+              }else{
+//	              this.busy = true;
+              }
+            }else{
+		          this.goodsList = res.result.list;
+		          this.flag = true;
+            }
+            console.log(`this.busy:${this.busy}, this.flag:${this.flag}, ${+new Date}`);
           }else{
           	this.goodsList = [];
           }
@@ -123,7 +139,15 @@
       },
       sortGoods(){
         this.sortFlag = !this.sortFlag;
+        this.page  = 1;
         this.getGoodsList();
+      },
+      loadMore(){
+        this.page++;
+//        this.busy = true;
+        setTimeout(() => {
+          this.getGoodsList();
+        }, 1000);
       }
     }
   }
