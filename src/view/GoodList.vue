@@ -41,14 +41,17 @@
                                         <div class="name">{{item.productName}}</div>
                                         <div class="price">{{item.salePrice}}</div>
                                         <div class="btn-area">
-                                            <a href="javascript:;" class="btn btn--m">加入购物车</a>
+                                            <a href="javascript:;" class="btn btn--m" @click="addCart(item.productId)">加入购物车</a>
                                         </div>
                                     </div>
                                 </li>
                             </ul>
-                            <div v-infinite-scroll="loadMore" infinite-scroll-disabled="busy" infinite-scroll-distance="30">
-                                <span v-show="busy">加载中...</span>
-                            </div>
+                        </div>
+                        <div class="view-more-normal"
+                             v-infinite-scroll="loadMore"
+                             infinite-scroll-disabled="busy"
+                             infinite-scroll-distance="20">
+                            <img src="./../assets/loading-spinning-bubbles.svg" v-show="loading">
                         </div>
                     </div>
                 </div>
@@ -73,13 +76,13 @@
   export default {
     data(){
       return {
-       priceChecked:'',
+       priceChecked:'all',
        goodsList:[], 
        page:1,
        pageSize:4,
        sortFlag:true,
-       flag:false,
-       busy:false,
+       busy:true,
+       loading:false,
        priceFilter:[
         {
           startPrice:'0.00',
@@ -109,33 +112,35 @@
       NavBread
     },
     methods:{
-      getGoodsList(){
+      getGoodsList(flag){
         var param = {
           page: this.page,
           pageSize: this.pageSize,
-          sort: this.sortFlag?1:-1
+          sort: this.sortFlag?1:-1,
+          priceLevel:this.priceChecked
         };
-        axios.get('/goods', {
+        this.loading = true;
+        axios.get('/goods/list', {
           params: param
         }).then(resonse => {
+          this.loading = false;
           let res = resonse.data;
           if(res.status == '0'){
-          	if(this.flag){
+          	if(flag){
               this.goodsList = this.goodsList.concat(res.result.list)
-              if(res.result.list.length == 0){
-//	              this.busy = false;
+              if(res.result.count == 0){
+                this.busy = true;
               }else{
-//	              this.busy = true;
+                this.busy = false;
               }
             }else{
-		          this.goodsList = res.result.list;
-		          this.flag = true;
+              this.goodsList = res.result.list;
+              this.busy = false;
             }
-            console.log(`this.busy:${this.busy}, this.flag:${this.flag}, ${+new Date}`);
           }else{
-          	this.goodsList = [];
+            this.goodsList = [];
           }
-        })
+        });
       },
       sortGoods(){
         this.sortFlag = !this.sortFlag;
@@ -143,11 +148,21 @@
         this.getGoodsList();
       },
       loadMore(){
-        this.page++;
-//        this.busy = true;
+        this.busy = true;
         setTimeout(() => {
-          this.getGoodsList();
-        }, 1000);
+          this.page++;
+          this.getGoodsList(true);
+        }, 500);
+      },
+      addCart(productId){
+        axios.post("/goods/addCart",{productId:productId}).then(res => {
+          var res = res.data;
+          if(res.status == '0'){
+            alert('添加成功');
+          }else{
+            alert(`msg:${res.msg}`);
+          }
+        });
       }
     }
   }
