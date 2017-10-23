@@ -22,8 +22,8 @@
                     <div class="filter stopPop" id="filter">
                         <dl class="filter-price">
                             <dt>Price:</dt>
-                            <dd><a href="javascript:void(0)" :class="{'cur':priceChecked == 'all'}" @click="priceChecked='all'">All</a></dd>
-                            <dd v-for="(item, index) in priceFilter" @click="priceChecked=index">
+                            <dd><a href="javascript:void(0)" :class="{'cur':priceChecked == 'all'}" @click="setPriceFilter('all')">All</a></dd>
+                            <dd v-for="(item, index) in priceFilter" @click="setPriceFilter(index)">
                                 <a href="javascript:void(0)" :class="{'cur':priceChecked==index}">{{item.startPrice}} - {{item.endPrice}}</a>
                             </dd>
                         </dl>
@@ -112,6 +112,11 @@
       NavBread
     },
     methods:{
+      setPriceFilter(index){
+        this.priceChecked = index;
+        this.page = 1;
+        this.getGoodsList();
+      },
       getGoodsList(flag){
         var param = {
           page: this.page,

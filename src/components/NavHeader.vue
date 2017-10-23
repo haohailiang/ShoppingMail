@@ -89,7 +89,6 @@
       checkLogin(){
         axios.get("/users/checkLogin").then(response =>{
           var res = response.data;
-          debugger;
           if(res.status=="0"){
             this.nickName = res.result;
             this.loginModalFlag = false;
