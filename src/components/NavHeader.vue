@@ -15,10 +15,10 @@
             </div>
             <div class="navbar-right-container" style="display: flex;">
                 <div class="navbar-menu-container">
+                    <span class="navbar-link" v-text="nickName" v-if="nickName"></span>
+                    <a href="javascript:void(0)" class="navbar-link" @click="loginModalFlag=true" v-if="!nickName">Login</a>
+                    <a href="javascript:void(0)" class="navbar-link" @click="logOut" v-else>Logout</a>
                     <!--<a href="/" class="navbar-link">我的账户</a>-->
-                    <span class="navbar-link"></span>
-                    <a href="javascript:void(0)" class="navbar-link">Login</a>
-                    <a href="javascript:void(0)" class="navbar-link">Logout</a>
                     <div class="navbar-cart-container">
                         <span class="navbar-cart-count"></span>
                         <a class="navbar-link navbar-cart-link" href="/#/cart">
@@ -75,13 +75,27 @@
       return {
         userName:'admin',
         userPwd:'123456',
-        loginModalFlag:true,
+        loginModalFlag:false,
         errorTip:false,
+        nickName:''
       }
     },
     components: {
     },
+    mounted(){
+        this.checkLogin();
+    },
     methods:{
+      checkLogin(){
+        axios.get("/users/checkLogin").then(response =>{
+          var res = response.data;
+          debugger;
+          if(res.status=="0"){
+            this.nickName = res.result;
+            this.loginModalFlag = false;
+          }
+        });
+      },
       login(){
         if(!this.userName || !this.userPwd){
           this.errorTip = true;
@@ -93,14 +107,22 @@
         }).then(response => {
           let res = response.data;
           if(res.status == '0'){
-          	this.errorTip = false;
-          	this.loginModalFlag = false;
+            this.errorTip = false;
+            this.loginModalFlag = false;
+            this.nickName = res.result.userName
+            console.log(res.result.userName)
           }else{
-          	this.errorTip = true;
+            this.errorTip = true;
           }
         });
       },
       logOut(){
+        axios.post("/users/logout").then((response)=>{
+          let res = response.data;
+          if(res.status=="0"){
+            this.nickName = '';
+          }
+        })
       }
     }
   };
