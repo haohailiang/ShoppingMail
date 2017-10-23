@@ -10,18 +10,14 @@ Vue.use(Router)
 export default new Router({
 	mode:'hash',
   routes: [
-    {
-      path: '/',
-      name: 'GoodList',
-      components: {
-      	default:GoodList,
-	      title:Title,
-	      img:Image
-      }
-    },
 	  {
-		  path:'/cart/:cartId',
-		  name:'cart',
+		  path:'/',
+		  name:'GoodList',
+		  component:GoodList
+	  },
+	  {
+		  path:'/cart',
+		  name:'Cart',
 		  component:Cart
 	  }
   ]
