@@ -194,6 +194,16 @@ export default {
 			})
 			return money;
 		},
+		checkAllFlag(){
+			return this.checkedCount == this.cartList.length;
+		},
+		checkedCount(){
+			var i = 0;
+			this.cartList.forEach((item)=>{
+				if(item.checked=='1')i++;
+			})
+			return i;
+		},
 	},
 	methods:{
 		init(){
@@ -206,7 +216,7 @@ export default {
 		},
 		toggleCheckAll(){
 			var flag = !this.checkAllFlag;
-			this.checkAllFlag = !this.checkAllFlag;
+			// this.checkAllFlag = !this.checkAllFlag;
 			this.cartList.forEach((item)=>{
 				item.checked = flag?'1':'0';
 			})
@@ -218,10 +228,6 @@ export default {
 					console.log("update suc");
 				}
 			})
-		},
-		checkAllFlag(){
-		},
-		checkedCount(){
 		},
 		closeModal(){
 			this.modalConfirm = false;
@@ -255,16 +261,17 @@ export default {
 				item.checked = item.checked=="1"?'0':'1';
 			}
 
-			// axios.post("/users/cartEdit",{
-			// 	productId:item.productId,
-			// 	productNum:item.productNum,
-			// 	checked:item.checked
-			// }).then((response)=>{
-			// 	let res = response.data;
-			// 	if(res.status=="0"){
-			// 		this.$store.commit("updateCartCount",flag=="add"?1:-1);
-			// 	}
-			// })
+			axios.post("/users/cartEdit",{
+				productId:item.productId,
+				productNum:item.productNum,
+				checked:item.checked
+			}).then((response)=>{
+				let res = response.data;
+				if(res.status=="0"){
+					alert('编辑成功!')
+					// this.$store.commit("updateCartCount",flag=="add"?1:-1);
+				}
+			})
 		},
 	}
 };
