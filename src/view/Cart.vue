@@ -168,6 +168,7 @@ export default {
 	data() {
 		return {
 			cartList:[],
+			delItem:{},
 			modalConfirm:false
 		}
 	},
@@ -183,6 +184,17 @@ export default {
 		NavBread,
 		Modal
 	},
+	computed:{
+		totalPrice(){
+			var money = 0;
+			this.cartList.forEach((item)=>{
+				if(item.checked=='1'){
+					money += parseFloat(item.salePrice)*parseInt(item.productNum);
+				}
+			})
+			return money;
+		},
+	},
 	methods:{
 		init(){
 			axios.get("/users/cartList").then((response)=>{
@@ -193,16 +205,66 @@ export default {
 		checkOut(){
 		},
 		toggleCheckAll(){
+			var flag = !this.checkAllFlag;
+			this.checkAllFlag = !this.checkAllFlag;
+			this.cartList.forEach((item)=>{
+				item.checked = flag?'1':'0';
+			})
+			axios.post("/users/editCheckAll",{
+				checkAll:flag
+			}).then((response)=>{
+				let res = response.data;
+				if(res.status=='0'){
+					console.log("update suc");
+				}
+			})
 		},
 		checkAllFlag(){
-		},
-		totalPrice(){
 		},
 		checkedCount(){
 		},
 		closeModal(){
+			this.modalConfirm = false;
 		},
 		delCart(){
+			axios.post("/users/cartDel",{
+				productId:this.delItem.productId
+			}).then((response)=>{
+				let res = response.data;
+				if(res.status == '0'){
+					this.modalConfirm = false;
+					// var delCount = this.delItem.productNum;
+					// this.$store.commit("updateCartCount",-delCount);
+					this.init();
+				}
+			});
+		},
+		delCartConfirm(item){
+			this.delItem = item;
+			this.modalConfirm = true;
+		},
+		editCart(flag,item){
+			if(flag=='add'){
+				item.productNum++;
+			}else if(flag=='minu'){
+				if(item.productNum<=1){
+					return;
+				}
+				item.productNum--;
+			}else{
+				item.checked = item.checked=="1"?'0':'1';
+			}
+
+			// axios.post("/users/cartEdit",{
+			// 	productId:item.productId,
+			// 	productNum:item.productNum,
+			// 	checked:item.checked
+			// }).then((response)=>{
+			// 	let res = response.data;
+			// 	if(res.status=="0"){
+			// 		this.$store.commit("updateCartCount",flag=="add"?1:-1);
+			// 	}
+			// })
 		},
 	}
 };
