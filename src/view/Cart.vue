@@ -213,6 +213,11 @@ export default {
 			});
 		},
 		checkOut(){
+			if(this.checkedCount>0){
+				this.$router.push({
+					path:"/address"
+				});
+			}
 		},
 		toggleCheckAll(){
 			var flag = !this.checkAllFlag;
