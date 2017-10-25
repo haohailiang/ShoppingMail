@@ -60,19 +60,19 @@
 					<div class="addr-list-wrap">
 						<div class="addr-list">
 							<ul>
-								<li v-for="(item,index) in addressListFilter" v-bind:class="{'check':checkIndex==index}">
+								<li v-for="(item,index) in addressListFilter" v-bind:class="{'check':checkIndex==index}" @click="checkIndex=index;selectedAddrId=item.addressId">
 									<dl>
 										<dt>{{item.userName}}</dt>
 										<dd class="address">{{item.streetName}}</dd>
 										<dd class="tel">{{item.tel}}</dd>
 									</dl>
 									<div class="addr-opration addr-del">
-										<a href="javascript:;" class="addr-del-btn">
+										<a href="javascript:;" class="addr-del-btn" @click="delAddressConfirm(item.addressId)">
 											<svg class="icon icon-del"><use xlink:href="#icon-del"></use></svg>
 										</a>
 									</div>
 									<div class="addr-opration addr-set-default">
-										<a href="javascript:;" class="addr-set-default-btn" v-if="!item.isDefault"><i>Set default</i></a>
+										<a href="javascript:;" class="addr-set-default-btn" v-if="!item.isDefault" @click="setDefault(item.addressId)"><i>Set default</i></a>
 									</div>
 									<div class="addr-opration addr-default" v-if="item.isDefault">Default address</div>
 								</li>
@@ -88,7 +88,7 @@
 						</div>
 
 						<div class="shipping-addr-more">
-							<a class="addr-more-btn up-down-btn" href="javascript:;" v-bind:class="{'open':limit>3}">
+							<a class="addr-more-btn up-down-btn" href="javascript:;" v-bind:class="{'open':limit>3}" @click="expand">
 								more
 								<i class="i-up-down">
 									<i class="i-up-down-l"></i>
@@ -120,13 +120,13 @@
 				</div>
 			</div>
 		</div>
-		<modal>
+		<modal :mdShow="isMdShow" @close="closeModal">
 			<p slot="message">
 				您是否确认要删除此地址?
 			</p>
 			<div slot="btnGroup">
-				<a class="btn btn--m" href="javascript:;">确认</a>
-				<a class="btn btn--m btn--red" href="javascript:;"
+				<a class="btn btn--m" href="javascript:;" @click="delAddress">确认</a>
+				<a class="btn btn--m btn--red" href="javascript:;" @click="isMdShow=false"
 				>取消</a>
 			</div>
 		</modal>
@@ -146,11 +146,11 @@
 		data(){
 			return{
 				limit:3,
-				// checkIndex:0,
-				// selectedAddrId:'',
+				checkIndex:0,
+				selectedAddrId:'',
 				addressList:[],
-				// isMdShow:false,
-				// addressId:''
+				isMdShow:false,
+				addressId:''
 			}
 		},
 		mounted(){
@@ -183,34 +183,34 @@
 				}
 			},
 			setDefault(addressId){
-				// axios.post("/users/setDefault",{
-				// 	addressId:addressId
-				// }).then((response)=>{
-				// 	let res = response.data;
-				// 	if(res.status=='0'){
-				// 		console.log("set default");
-				// 		this.init();
-				// 	}
-				// })
+				axios.post("/users/setDefault",{
+					addressId:addressId
+				}).then((response)=>{
+					let res = response.data;
+					if(res.status=='0'){
+						console.log("set default");
+						this.init();
+					}
+				})
 			},
 			closeModal(){
-				// this.isMdShow = false;
+				this.isMdShow = false;
 			},
 			delAddressConfirm(addressId){
-				// this.isMdShow = true;
-				// this.addressId = addressId;
+				this.isMdShow = true;
+				this.addressId = addressId;
 			},
 			delAddress(){
-				// axios.post("/users/delAddress",{
-				// 	addressId:this.addressId
-				// }).then((response)=>{
-				// 	let res = response.data;
-				// 	if(res.status=="0"){
-				// 		console.log("del suc");
-				// 		this.isMdShow = false;
-				// 		this.init();
-				// 	}
-				// })
+				axios.post("/users/delAddress",{
+					addressId:this.addressId
+				}).then((response)=>{
+					let res = response.data;
+					if(res.status=="0"){
+						console.log("del suc");
+						this.isMdShow = false;
+						this.init();
+					}
+				})
 			}
 		}
 	}
