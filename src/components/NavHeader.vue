@@ -71,8 +71,6 @@
   import axios from 'axios'
   import { mapState } from 'vuex'
 
-  console.log(mapState)
-
   export default {
     data() {
       return {
