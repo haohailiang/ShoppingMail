@@ -273,8 +273,7 @@ export default {
 			}).then((response)=>{
 				let res = response.data;
 				if(res.status=="0"){
-					alert('编辑成功!')
-					// this.$store.commit("updateCartCount",flag=="add"?1:-1);
+					this.$store.commit("updateCartCount",flag=="add"?1:-1);
 				}
 			})
 		},
