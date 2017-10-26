@@ -20,7 +20,7 @@
                     <a href="javascript:void(0)" class="navbar-link" @click="logOut" v-else>Logout</a>
                     <!--<a href="/" class="navbar-link">我的账户</a>-->
                     <div class="navbar-cart-container">
-                        <span class="navbar-cart-count"></span>
+                      <span class="navbar-cart-count" v-text="cartCount" v-if="cartCount"></span>
                         <a class="navbar-link navbar-cart-link" href="/#/cart">
                             <svg class="navbar-cart-logo">
                                 <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-cart"></use>
@@ -123,6 +123,7 @@
             this.loginModalFlag = false;
             // this.nickName = res.result.userName
             this.$store.commit("updateUserInfo",res.result.userName);
+            this.getCartCount();
           }else{
             this.errorTip = true;
           }
@@ -136,6 +137,13 @@
             this.$store.commit("updateUserInfo",res.result.userName);
           }
         })
+      },
+      getCartCount(){
+        axios.get("users/getCartCount").then(res=>{
+          debugger;
+          var res = res.data;
+          this.$store.commit("updateCartCount",res.result);
+        });
       }
     }
   };
