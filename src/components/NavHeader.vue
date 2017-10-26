@@ -66,7 +66,7 @@
 
 </style>
 
-<script type="text/ecmascript-6">
+<script>
   import '../assets/css/base.css'
   import axios from 'axios'
 
@@ -77,10 +77,17 @@
         userPwd:'123456',
         loginModalFlag:false,
         errorTip:false,
-        nickName:''
       }
     },
     components: {
+    },
+    computed:{
+      nickName(){
+        return this.$store.state.nickName;
+      },
+      cartCount(){
+        return this.$store.state.cartCount;
+      }
     },
     mounted(){
         this.checkLogin();
@@ -89,9 +96,15 @@
       checkLogin(){
         axios.get("/users/checkLogin").then(response =>{
           var res = response.data;
+          var path = this.$route.pathname;
           if(res.status=="0"){
-            this.nickName = res.result;
+            // this.nickName = res.result;
+            this.$store.commit("updateUserInfo",res.result);
             this.loginModalFlag = false;
+          }else{
+            if(path != '/goods'){
+              this.$router.push("/goods");
+            }
           }
         });
       },
@@ -108,8 +121,8 @@
           if(res.status == '0'){
             this.errorTip = false;
             this.loginModalFlag = false;
-            this.nickName = res.result.userName
-            console.log(res.result.userName)
+            // this.nickName = res.result.userName
+            this.$store.commit("updateUserInfo",res.result.userName);
           }else{
             this.errorTip = true;
           }
@@ -119,7 +132,8 @@
         axios.post("/users/logout").then((response)=>{
           let res = response.data;
           if(res.status=="0"){
-            this.nickName = '';
+            // this.nickName = '';
+            this.$store.commit("updateUserInfo",res.result.userName);
           }
         })
       }

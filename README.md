@@ -5,6 +5,7 @@
 # 安装mongoose
 ```
 npm install mongoose --save
+npm install vuex --save
 ```
 # 安装
 ```$xslt
