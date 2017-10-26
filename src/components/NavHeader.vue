@@ -135,12 +135,12 @@
           if(res.status=="0"){
             // this.nickName = '';
             this.$store.commit("updateUserInfo",res.result.userName);
+            this.$store.commit("initCartCount", 0);
           }
         })
       },
       getCartCount(){
         axios.get("users/getCartCount").then(res=>{
-          debugger;
           var res = res.data;
           this.$store.commit("updateCartCount",res.result);
         });

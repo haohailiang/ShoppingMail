@@ -57,6 +57,27 @@
                 </div>
             </div>
         </div>
+        <modal v-bind:mdShow="mdShow" v-on:close="closeModal">
+            <p slot="message">
+               请先登录,否则无法加入到购物车中!
+            </p>
+            <div slot="btnGroup">
+                <a class="btn btn--m" href="javascript:;" @click="mdShow = false">关闭</a>
+            </div>
+        </modal>
+        <modal v-bind:mdShow="mdShowCart" v-on:close="closeModal">
+          <p slot="message">
+            <svg class="icon-status-ok">
+              <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-status-ok"></use>
+            </svg>
+            <span>加入购物车成!</span>
+          </p>
+          <div slot="btnGroup">
+            <a class="btn btn--m" href="javascript:;" @click="mdShowCart = false">继续购物</a>
+            <router-link class="btn btn--m btn--red" href="javascript:;" to="/cart">查看购物车</router-link>
+          </div>
+        </modal>
+        <div class="md-overlay" v-show="overLayFlag" @click.stop="closePop"></div>
         <nav-footer></nav-footer>
     </div>
 </template>
@@ -65,12 +86,13 @@
 
 </style>
 
-<script type="text/ecmascript-6">
+<script>
   import '../assets/css/login.css'
   import '../assets/css/product.css'
   import NavHeader from '@/components/NavHeader.vue'
   import NavFooter from '@/components/NavFooter.vue'
   import NavBread from '@/components/NavBread.vue'
+  import Modal from './../components/Modal'
   import axios from 'axios'
 
   export default {
@@ -83,6 +105,8 @@
        sortFlag:true,
        busy:true,
        loading:false,
+       mdShow:false,
+       mdShowCart:false,
        priceFilter:[
         {
           startPrice:'0.00',
@@ -100,7 +124,8 @@
           startPrice:'1000.00',
           endPrice:'2000.00'
         }
-       ]
+       ],
+       overLayFlag:false
       }
     },
     mounted(){
@@ -109,7 +134,8 @@
     components:{
       NavHeader,
       NavFooter,
-      NavBread
+      NavBread,
+      Modal
     },
     methods:{
       setPriceFilter(index){
@@ -163,12 +189,17 @@
         axios.post("/goods/addCart",{productId:productId}).then(res => {
           var res = res.data;
           if(res.status == '0'){
-            alert('添加成功');
+            this.mdShowCart = true;
+            this.$store.commit("updateCartCount",1);
           }else{
-            alert(`msg:${res.msg}`);
+            this.mdShow = true;
           }
         });
-      }
+      },
+      closeModal(){
+        this.mdShow = false;
+        this.mdShowCart = false;
+      },
     }
   }
 </script>

@@ -31,6 +31,9 @@ const store = new Vuex.Store({//相当于全局变量
 		},
 		updateCartCount(state,cartCount){
 			state.cartCount += cartCount;
+		},
+		initCartCount(state,cartCount){
+			state.cartCount = 0;
 		}
 	}
 })
