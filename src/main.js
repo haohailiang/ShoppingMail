@@ -5,6 +5,7 @@ import App from './App'
 import router from './router'
 import VueLazyload from 'vue-lazyload'
 import infiniteScroll from 'vue-infinite-scroll'
+import axios from 'axios'
 import Vuex from 'vuex'
 import './assets/css/base.css'
 import './assets/css/checkout.css'
@@ -40,9 +41,35 @@ const store = new Vuex.Store({//相当于全局变量
 
 /* eslint-disable no-new */
 new Vue({
-  el: '#app',
-  store,
-  router,
-  template: '<App/>',
-  components: { App }
+	el: '#app',
+	store,
+	router,
+	mounted(){
+		this.checkLogin();
+		this.getCartCount();
+	},
+	methods:{
+		checkLogin(){
+			axios.get("users/checkLogin").then(res=> {
+				var res = res.data;
+				if (res.status == "0") {
+					this.$store.commit("updateUserInfo", res.result);
+				}else{
+					if(this.$route.path!="/goods"){
+						this.$router.push("/goods");
+					}
+				}
+			});
+		},
+		getCartCount(){
+			axios.get("users/getCartCount").then(res=>{
+				var res = res.data;
+				if(res.status=="0"){
+					this.$store.commit("updateCartCount",res.result);
+				}
+			});
+		}
+	},
+	template: '<App/>',
+	components: { App }
 })
