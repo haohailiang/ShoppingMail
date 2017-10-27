@@ -159,13 +159,13 @@ export default{
 		}
 	},
 	computed:{
-		// ...mapState(['nickName','cartCount'])
-		nickName(){
-			return this.$store.state.nickName;
-		},
-		cartCount(){
-			return this.$store.state.cartCount;
-		}
+		...mapState(['nickName','cartCount'])
+		// nickName(){
+		// 	return this.$store.state.nickName;
+		// },
+		// cartCount(){
+		// 	return this.$store.state.cartCount;
+		// }
 	},
 	mounted(){
 		this.checkLogin();
