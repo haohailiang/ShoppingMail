@@ -3,22 +3,24 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-import VueLazyload from 'vue-lazyload'
-import infiniteScroll from 'vue-infinite-scroll'
 import axios from 'axios'
 import Vuex from 'vuex'
+import VueLazyload from 'vue-lazyload'
+import infiniteScroll from 'vue-infinite-scroll'
+import {currency} from './util/currency'
+
 import './assets/css/base.css'
 import './assets/css/checkout.css'
 import './assets/css/product.css'
 
-Vue.config.productionTip = false
-
 Vue.use(Vuex)
 Vue.use(infiniteScroll)
-
 Vue.use(VueLazyload, {
 	loading: 'static/loading-svg/loading-bars.svg',
 })
+
+Vue.filter("currency",currency);
+Vue.config.productionTip = false
 
 const store = new Vuex.Store({//相当于全局变量
 	state: {
